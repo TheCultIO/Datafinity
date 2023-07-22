@@ -32,8 +32,12 @@ def process_excel(file_path):
     Returns:
         pd.DataFrame: The content of the Excel file as a DataFrame.
     """
-    df = pd.read_excel(file_path)
-    return df
+    try:
+        df = pd.read_excel(file_path)
+        return df
+    except Exception as e:
+        #TODO: Handle any exception that might occur during file processing
+        return None
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
