@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Excel File Upload</title>
+</head>
+<body>
+    <h1>Upload an Excel file</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx">
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if data %}
+        <hr>
+        <h2>Uploaded Data</h2>
+        {{ data | safe }}
+    {% endif %}
+</body>
+</html>
