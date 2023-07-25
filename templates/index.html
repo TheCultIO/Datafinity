@@ -6,20 +6,36 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f8f8f8;
         }
         h1 {
             text-align: center;
             margin-bottom: 20px;
+            color: #007BFF;
         }
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
+            border: 2px solid #007BFF;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         input[type="file"] {
             padding: 10px;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+            color: #444;
+            cursor: pointer;
+            outline: none;
+        }
+        input[type="file"]:hover {
+            background-color: #f0f0f0;
         }
         input[type="submit"] {
             background-color: #007BFF;
@@ -27,24 +43,33 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
         }
         hr {
-            margin: 20px 0;
+            margin: 30px 0;
+            border: none;
+            border-top: 2px solid #ccc;
         }
         h2 {
             text-align: center;
             margin-bottom: 10px;
+            color: #007BFF;
         }
         pre {
             background-color: #f7f7f7;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 8px;
             overflow-x: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <h1>Upload an Excel file</h1>
+    <h1>Excel File Upload</h1>
     <form action="/" method="post" enctype="multipart/form-data">
         <input type="file" name="file" accept=".xlsx">
         <input type="submit" value="Upload">
