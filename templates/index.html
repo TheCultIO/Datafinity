@@ -2,6 +2,46 @@
 <html>
 <head>
     <title>Excel File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        hr {
+            margin: 20px 0;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        pre {
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload an Excel file</h1>
@@ -13,7 +53,7 @@
     {% if data %}
         <hr>
         <h2>Uploaded Data</h2>
-        {{ data | safe }}
+        <pre>{{ data | safe }}</pre>
     {% endif %}
 </body>
 </html>
