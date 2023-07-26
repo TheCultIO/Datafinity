@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pickle
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
@@ -23,12 +24,12 @@ def segregate_columns(df):
     return categorical_cols, numerical_cols
 
 
-def predict(df1):
+def train_model():
     df = pd.read_csv('compressed data.csv')
 
     df = df.drop_duplicates()
     df = drop_columns_with_high_null(df, threshold=0.75)
-    df.drop(["id", "city", "country", "county", "countyFIPS"], axis=1, inplace=True)
+    df.drop(["id", "city", "country", "county", "countyFIPS","mostRecentPriceDomain","prices.currency", "prices.isSale"], axis=1, inplace=True)
 
     categorical_cols, numerical_cols = segregate_columns(df)
 
@@ -37,8 +38,7 @@ def predict(df1):
     for i in categorical_cols:
         df[i].fillna(df[i].mode()[0], inplace=True)
 
-    columns_to_drop = ['mostRecentPriceDomain', 'prices.currency', 'prices.isSale']  # List of column names to drop
-    df.drop(columns=columns_to_drop, inplace=True)
+    df = drop_columns_with_high_null(df, threshold=0.75)
 
     for col in categorical_cols:
         label_encoder = LabelEncoder()
@@ -58,31 +58,37 @@ def predict(df1):
     model = RandomForestRegressor()
     model.fit(X, y)
 
-    # New dataframe
-    df1 = df1.drop_duplicates()
-    df2 = df1.copy()
-    df1 = drop_columns_with_high_null(df1, threshold=0.75)
-    df1.drop(["id", "city", "country", "county", "countyFIPS"], axis=1, inplace=True)
+    # Save the trained model to a pickle file
+    with open('trained_model.pkl', 'wb') as file:
+        pickle.dump(model, file)
 
-    categorical_cols1, numerical_cols1 = segregate_columns(df1)
 
-    for i in numerical_cols1:
-        df1[i].fillna(df1[i].mean(), inplace=True)
-    for i in categorical_cols1:
-         df1[i].fillna(df1[i].mode()[0], inplace=True)
+def predict_model(input_df: pd.DataFrame) -> pd.DataFrame:
+    # Load the trained model from the pickle file
+    with open('trained_model.pkl', 'rb') as file:
+        model = pickle.load(file)
 
-    columns_to_drop = ['mostRecentPriceDomain', 'prices.currency', 'prices.isSale']  # List of column names to drop
-    df1.drop(columns=columns_to_drop, inplace=True)
+    # New dataframe for prediction
+    input_df_cleaned = input_df.drop_duplicates()
+    input_df_copy = input_df_cleaned.copy()
+    input_df_cleaned = drop_columns_with_high_null(input_df_cleaned, threshold=0.75)
+    input_df_cleaned.drop(["id", "city", "country", "county", "countyFIPS","mostRecentPriceDomain","prices.currency", "prices.isSale"], axis=1, inplace=True)
 
-    for col in categorical_cols1:
+    categorical_cols, numerical_cols = segregate_columns(input_df_cleaned)
+
+    for i in numerical_cols:
+        input_df_cleaned[i].fillna(input_df_cleaned[i].mean(), inplace=True)
+    for i in categorical_cols:
+        input_df_cleaned[i].fillna(input_df_cleaned[i].mode()[0], inplace=True)
+
+    input_df_cleaned = drop_columns_with_high_null(input_df_cleaned, threshold=0.75)
+
+    for col in categorical_cols:
         label_encoder = LabelEncoder()
-        df1[col] = label_encoder.fit_transform(df1[col])
+        input_df_cleaned[col] = label_encoder.fit_transform(input_df_cleaned[col])
 
-    scaler = StandardScaler()
-    df_scaled1 = scaler.fit_transform(df1.drop(target_column, axis=1))
+    y_pred = model.predict(input_df_cleaned)
 
-    y_pred = model.predict(df_scaled1)
+    input_df_copy['predicted_pricePerSquareFoot'] = y_pred
 
-    df2['prices.pricePerSquareFoot'] = y_pred
-
-    return df2
+    return input_df_copy
