@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Constants
 UPLOAD_FOLDER = 'uploads'
-ALLOWED_EXTENSIONS = {'xlsx'}
+ALLOWED_EXTENSIONS = {'csv','xlsx'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
