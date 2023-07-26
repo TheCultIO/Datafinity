@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import os
+import model
 
 app = Flask(__name__)
 
@@ -34,7 +35,8 @@ def process_excel(file_path):
     """
     try:
         df = pd.read_excel(file_path)
-        return df
+        df1= model.predict(df)
+        return df1
     except Exception as e:
         #TODO: Handle any exception that might occur during file processing
         return None
