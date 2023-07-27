@@ -5,6 +5,9 @@ import model
 
 app = Flask(__name__)
 
+# Configure static file serving
+app.static_folder = 'static'
+
 # Constants
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv','xlsx'}

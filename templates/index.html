@@ -66,9 +66,35 @@
             overflow-x: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        /* New CSS for logos */
+        .logo-house {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-phoenix {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 80px; 
+            height: 80px;
+        }
+
+        /* Center justify the data */
+        h2, pre {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <!-- Logos -->
+    <img class="logo-house" src="{{ url_for('static', filename='house_logo.png') }}" alt="House Logo">
+    <img class="logo-phoenix" src="{{ url_for('static', filename='arizona_phoenix_logo.png') }}" alt="Phoenix Logo">
+    
     <h1>Upload your excel, we will do the rest !</h1>
     <form action="/" method="post" enctype="multipart/form-data">
         <input type="file" name="file" accept=".xlsx">
