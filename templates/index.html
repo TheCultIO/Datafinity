@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Excel File Upload</title>
+    <title>Refiniti</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             background-color: #f8f8f8;
         }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 20px;
             color: #007BFF;
         }
+
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 20px;
-            border: 2px solid #007BFF;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         input[type="file"] {
             padding: 10px;
             margin-bottom: 10px;
@@ -33,10 +42,13 @@
             color: #444;
             cursor: pointer;
             outline: none;
+            width: 100%;
         }
+
         input[type="file"]:hover {
             background-color: #f0f0f0;
         }
+
         input[type="submit"] {
             background-color: #007BFF;
             color: white;
@@ -46,25 +58,31 @@
             border-radius: 4px;
             transition: background-color 0.2s;
         }
+
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+
         hr {
             margin: 30px 0;
             border: none;
             border-top: 2px solid #ccc;
         }
+
         h2 {
             text-align: center;
             margin-bottom: 10px;
             color: #007BFF;
         }
+
         pre {
             background-color: #f7f7f7;
             padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         /* New CSS for logos */
@@ -91,20 +109,21 @@
     </style>
 </head>
 <body>
-    <!-- Logos -->
-    <img class="logo-house" src="{{ url_for('static', filename='house_logo.png') }}" alt="House Logo">
-    <img class="logo-phoenix" src="{{ url_for('static', filename='arizona_phoenix_logo.png') }}" alt="Phoenix Logo">
-    
-    <h1>Upload your excel, we will do the rest !</h1>
-    <form action="/" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".xlsx">
-        <input type="submit" value="Upload">
-    </form>
+    <div class="container">
+        <img class="logo-house" src="{{ url_for('static', filename='house_logo.png') }}" alt="House Logo">
+        <img class="logo-phoenix" src="{{ url_for('static', filename='arizona_phoenix_logo.png') }}" alt="Phoenix Logo">
+        <h1>Refiniti</h1>
+        <h3>"Unlock the Future of Real Estate: Your Price Prophecy Awaits!"</h3>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx">
+            <input type="submit" value="Upload">
+        </form>
 
-    {% if data %}
-        <hr>
-        <h2>Price Prediction</h2>
-        <pre>{{ data | safe }}</pre>
-    {% endif %}
+        {% if data %}
+            <hr>
+            <h2>Price Prediction</h2>
+            <pre>{{ data | safe }}</pre>
+        {% endif %}
+    </div>
 </body>
 </html>
