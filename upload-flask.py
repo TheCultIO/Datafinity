@@ -35,8 +35,11 @@ def process_excel(file_path):
     """
     try:
         df = pd.read_excel(file_path)
-        predicted_df= model.predict_model(df)
-        return predicted_df
+        predicted_df = model.predict_model(df)
+        final_pred_df = predicted_df[["address", "predicted_pricePerSquareFoot"]]
+        final_pred_df = final_pred_df.drop_duplicates(subset=["address"])
+        final_pred_df.columns = ["Address", "Predicted Price Per Square Foot"]
+        return final_pred_df
     except Exception as e:
         #TODO: Handle any exception that might occur during file processing
         return None
@@ -55,6 +58,10 @@ def upload_file():
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(file_path)
             data = process_excel(file_path)
+
+            # Reset the index and drop the existing index column
+            data = data.reset_index(drop=True)
+            
             return render_template('index.html', data=data.to_html())
         else:
             return "Invalid file format. Please upload a valid Excel file."
