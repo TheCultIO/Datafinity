@@ -35,9 +35,8 @@ def process_excel(file_path):
     """
     try:
         df = pd.read_excel(file_path)
-        model.train_model()
-        df1= model.predict_model(df)
-        return df1
+        predicted_df= model.predict_model(df)
+        return predicted_df
     except Exception as e:
         #TODO: Handle any exception that might occur during file processing
         return None
